@@ -27,7 +27,7 @@ docker compose up -d python-app
 3. **Set up thingsboard**
 Go to thingsboard (as a tenant) -> create new device (name only) -> copy access token from device details to node red -> mqtt out node -> security tab -> username
 ```bash
-docker run --rm -it --add-host=host.docker.internal:host-gateway thingsboard/mosquitto-clients mosquitto_pub -d -q 1 -h host.docker.internal -p 1884 -t v1/devices/me/telemetry -u "aJSIa83n9QsqnGgPdkwM" -m "{temperature:25}"
+docker run --rm -it --add-host=host.docker.internal:host-gateway thingsboard/mosquitto-clients mosquitto_pub -d -q 1 -h host.docker.internal -p 1884 -t v1/devices/me/telemetry -u "<DEVICE_ACCESS_TOKEN>" -m "{temperature:25}"
 ```
 Dashboards -> import aegina_weather.json -> edit the widgets to use nodered device
 
