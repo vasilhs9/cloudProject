@@ -34,17 +34,23 @@ Dashboards -> import aegina_weather.json -> edit the widgets to use nodered devi
 
 THINGSBOARD:
 
+address: http://localhost:8080
 System Administrator: sysadmin@thingsboard.org / sysadmin
 Tenant Administrator: tenant@thingsboard.org / tenant
 Customer User: customer@thingsboard.org / customer
 
-RABBITMQ
+RABBITMQ:
 
+address: http://localhost:15672
 username: guest
 password: guest
 
-MINIO
+MINIO:
 
+address: http://localhost:9090
 username: admin
 password: admin123
 
+NODE RED:
+
+address: http://localhost:1880
