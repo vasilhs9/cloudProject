@@ -18,3 +18,33 @@ This project contains multiple services communicating together:
 git clone https://github.com/vasilhs9/cloudProject.git
 cd cloudProject
 docker compose run --rm -e INSTALL_TB=true -e LOAD_DEMO=true thingsboard-ce
+```
+2. **Start the containers (if python app does not start use the command twice)**
+```bash
+docker compose up -d
+```
+3. **Set up thingsboard**
+Go to thingsboard (as a tenant) -> create new device named nodered-device -> copy access token from device details to node red username in security tab on mqtt out node
+```bash
+docker run --rm -it --add-host=host.docker.internal:host-gateway thingsboard/mosquitto-clients mosquitto_pub -d -q 1 -h host.docker.internal -p 1884 -t v1/devices/me/telemetry -u "aJSIa83n9QsqnGgPdkwM" -m "{temperature:25}"
+```
+Dashboards -> import aegina_weather.json -> edit the widgets to use nodered device
+
+4. **Credentials**
+
+THINGSBOARD:
+
+System Administrator: sysadmin@thingsboard.org / sysadmin
+Tenant Administrator: tenant@thingsboard.org / tenant
+Customer User: customer@thingsboard.org / customer
+
+RABBITMQ
+
+username: guest
+password: guest
+
+MINIO
+
+username: admin
+password: admin123
+
