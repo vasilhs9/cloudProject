@@ -77,6 +77,8 @@ services:
     environment:
       TB_SERVICE_ID: ${TB_SERVICE_ID}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      INSTALL_TB: "true"
+      LOAD_DEMO: "true"
     depends_on:
       - postgres
 
