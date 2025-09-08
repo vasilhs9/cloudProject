@@ -1,0 +1,85 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@10.8.2
+2 info using node@v20.18.1
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/data/.npmrc
+5 silly config load:file:/usr/src/node-red/.npmrc
+6 silly config load:file:/usr/local/etc/npmrc
+7 verbose title npm install @mnn-o/node-red-rabbitmq@1.0.2
+8 verbose argv "install" "--no-audit" "--no-update-notifier" "--no-fund" "--save" "--save-prefix" "~" "--omit" "dev" "--engine-strict" "@mnn-o/node-red-rabbitmq@1.0.2"
+9 verbose logfile logs-max:10 dir:/data/.npm/_logs/2025-09-08T09_43_42_599Z-
+10 verbose logfile /data/.npm/_logs/2025-09-08T09_43_42_599Z-debug-0.log
+11 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
+12 silly logfile done cleaning log files
+13 silly idealTree buildDeps
+14 silly fetch manifest @mnn-o/node-red-rabbitmq@1.0.2
+15 silly packumentCache full:https://registry.npmjs.org/@mnn-o%2fnode-red-rabbitmq cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/@mnn-o%2fnode-red-rabbitmq 1392ms (cache miss)
+17 silly packumentCache full:https://registry.npmjs.org/@mnn-o%2fnode-red-rabbitmq set size:undefined disposed:false
+18 silly placeDep ROOT @mnn-o/node-red-rabbitmq@1.0.2 OK for: node-red-project@0.0.1 want: 1.0.2
+19 silly fetch manifest amqplib@^0.10.3
+20 silly packumentCache full:https://registry.npmjs.org/amqplib cache-miss
+21 silly fetch manifest lodash.clonedeep@^4.5.0
+22 silly packumentCache full:https://registry.npmjs.org/lodash.clonedeep cache-miss
+23 silly fetch manifest uuid@^8.3.2
+24 silly packumentCache full:https://registry.npmjs.org/uuid cache-miss
+25 http fetch GET 200 https://registry.npmjs.org/lodash.clonedeep 79ms (cache miss)
+26 silly packumentCache full:https://registry.npmjs.org/lodash.clonedeep set size:undefined disposed:false
+27 http fetch GET 200 https://registry.npmjs.org/amqplib 83ms (cache miss)
+28 silly packumentCache full:https://registry.npmjs.org/amqplib set size:undefined disposed:false
+29 http fetch GET 200 https://registry.npmjs.org/uuid 87ms (cache miss)
+30 silly packumentCache full:https://registry.npmjs.org/uuid set size:undefined disposed:false
+31 silly placeDep ROOT amqplib@0.10.9 OK for: @mnn-o/node-red-rabbitmq@1.0.2 want: ^0.10.3
+32 silly placeDep ROOT lodash.clonedeep@4.5.0 OK for: @mnn-o/node-red-rabbitmq@1.0.2 want: ^4.5.0
+33 silly placeDep ROOT uuid@8.3.2 OK for: @mnn-o/node-red-rabbitmq@1.0.2 want: ^8.3.2
+34 silly fetch manifest buffer-more-ints@~1.0.0
+35 silly packumentCache full:https://registry.npmjs.org/buffer-more-ints cache-miss
+36 silly fetch manifest url-parse@~1.5.10
+37 silly packumentCache full:https://registry.npmjs.org/url-parse cache-miss
+38 http fetch GET 200 https://registry.npmjs.org/buffer-more-ints 79ms (cache miss)
+39 silly packumentCache full:https://registry.npmjs.org/buffer-more-ints set size:undefined disposed:false
+40 http fetch GET 200 https://registry.npmjs.org/url-parse 89ms (cache miss)
+41 silly packumentCache full:https://registry.npmjs.org/url-parse set size:undefined disposed:false
+42 silly placeDep ROOT buffer-more-ints@1.0.0 OK for: amqplib@0.10.9 want: ~1.0.0
+43 silly placeDep ROOT url-parse@1.5.10 OK for: amqplib@0.10.9 want: ~1.5.10
+44 silly fetch manifest querystringify@^2.1.1
+45 silly packumentCache full:https://registry.npmjs.org/querystringify cache-miss
+46 silly fetch manifest requires-port@^1.0.0
+47 silly packumentCache full:https://registry.npmjs.org/requires-port cache-miss
+48 http fetch GET 200 https://registry.npmjs.org/requires-port 31ms (cache miss)
+49 silly packumentCache full:https://registry.npmjs.org/requires-port set size:undefined disposed:false
+50 http fetch GET 200 https://registry.npmjs.org/querystringify 81ms (cache miss)
+51 silly packumentCache full:https://registry.npmjs.org/querystringify set size:undefined disposed:false
+52 silly placeDep ROOT querystringify@2.2.0 OK for: url-parse@1.5.10 want: ^2.1.1
+53 silly placeDep ROOT requires-port@1.0.0 OK for: url-parse@1.5.10 want: ^1.0.0
+54 silly reify moves {}
+55 silly tarball no local data for requires-port@https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz. Extracting by manifest.
+56 silly tarball no local data for querystringify@https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz. Extracting by manifest.
+57 silly tarball no local data for url-parse@https://registry.npmjs.org/url-parse/-/url-parse-1.5.10.tgz. Extracting by manifest.
+58 silly tarball no local data for buffer-more-ints@https://registry.npmjs.org/buffer-more-ints/-/buffer-more-ints-1.0.0.tgz. Extracting by manifest.
+59 silly tarball no local data for lodash.clonedeep@https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz. Extracting by manifest.
+60 silly tarball no local data for amqplib@https://registry.npmjs.org/amqplib/-/amqplib-0.10.9.tgz. Extracting by manifest.
+61 silly tarball no local data for uuid@https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz. Extracting by manifest.
+62 silly tarball no local data for @mnn-o/node-red-rabbitmq@https://registry.npmjs.org/@mnn-o/node-red-rabbitmq/-/node-red-rabbitmq-1.0.2.tgz. Extracting by manifest.
+63 http fetch GET 200 https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz 68ms (cache miss)
+64 http fetch GET 200 https://registry.npmjs.org/querystringify/-/querystringify-2.2.0.tgz 68ms (cache miss)
+65 http fetch GET 200 https://registry.npmjs.org/url-parse/-/url-parse-1.5.10.tgz 69ms (cache miss)
+66 http fetch GET 200 https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz 94ms (cache miss)
+67 http fetch GET 200 https://registry.npmjs.org/buffer-more-ints/-/buffer-more-ints-1.0.0.tgz 109ms (cache miss)
+68 http fetch GET 200 https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz 127ms (cache miss)
+69 http fetch GET 200 https://registry.npmjs.org/amqplib/-/amqplib-0.10.9.tgz 139ms (cache miss)
+70 http fetch GET 200 https://registry.npmjs.org/@mnn-o/node-red-rabbitmq/-/node-red-rabbitmq-1.0.2.tgz 745ms (cache miss)
+71 silly ADD node_modules/requires-port
+72 silly ADD node_modules/querystringify
+73 silly ADD node_modules/url-parse
+74 silly ADD node_modules/buffer-more-ints
+75 silly ADD node_modules/uuid
+76 silly ADD node_modules/lodash.clonedeep
+77 silly ADD node_modules/amqplib
+78 silly ADD node_modules/@mnn-o/node-red-rabbitmq
+79 verbose cwd /data
+80 verbose os Linux 5.15.167.4-microsoft-standard-WSL2
+81 verbose node v20.18.1
+82 verbose npm  v10.8.2
+83 verbose exit 0
+84 info ok

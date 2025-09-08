@@ -38,7 +38,7 @@ services:
       - rabbitmq
       - minio
     volumes:
-      - nodered_data:/data
+      - ./nodered_data:/data
 
   python-app:
     build: ./app
@@ -77,10 +77,10 @@ services:
     environment:
       TB_SERVICE_ID: ${TB_SERVICE_ID}
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      INSTALL_TB: "true"
-      LOAD_DEMO: "true"
     depends_on:
       - postgres
+    volumes:
+      - ./thingsboard_data:/data 
 
 volumes:
   minio_data:
