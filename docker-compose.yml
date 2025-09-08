@@ -29,6 +29,13 @@ services:
       RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: ${RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_HOST: rabbitmq
+      RAW_QUEUE: weather_queue
+      PROCESSED_QUEUE: processed_queue
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: admin
+      MINIO_SECRET_KEY: admin123
+      BUCKET_NAME: weather-data
   nodered:
     image: nodered/node-red
     container_name: nodered

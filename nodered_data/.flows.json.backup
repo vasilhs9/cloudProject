@@ -1,14 +1,13 @@
 [
     {
-        "id": "e6de6c70ad722069",
+        "id": "f6f2187d.f17ca8",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
-        "info": "",
-        "env": []
+        "info": ""
     },
     {
-        "id": "f6f2187d.f17ca8",
+        "id": "0e73d04655eac786",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -38,7 +37,7 @@
         "id": "8b6d28baeb7502e9",
         "type": "mqtt-broker",
         "name": "Send to ThingsBoard",
-        "broker": "thingsboard",
+        "broker": "thingsboard-ce",
         "port": 1883,
         "clientid": "",
         "autoConnect": true,
@@ -259,6 +258,214 @@
         "id": "208de90902a68128",
         "type": "mqtt out",
         "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "v1/devices/me/telemetry",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "8b6d28baeb7502e9",
+        "x": 1230,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "dc2c4df759596097",
+        "type": "http request",
+        "z": "0e73d04655eac786",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=40.56&longitude=23&current_weather=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 210,
+        "y": 180,
+        "wires": [
+            [
+                "b8b53a69edb6a7e5",
+                "3ca57c861da333c8"
+            ]
+        ]
+    },
+    {
+        "id": "b8b53a69edb6a7e5",
+        "type": "json",
+        "z": "0e73d04655eac786",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 390,
+        "y": 260,
+        "wires": [
+            [
+                "96823702f573cc90"
+            ]
+        ]
+    },
+    {
+        "id": "96823702f573cc90",
+        "type": "function",
+        "z": "0e73d04655eac786",
+        "name": "Format Weather Payload",
+        "func": "// Pick only the fields we care about\nmsg.topic = \"weather.data\";\nmsg.payload = {\n    temperature: msg.payload.current_weather.temperature,\n    windspeed: msg.payload.current_weather.windspeed,\n    winddirection: msg.payload.current_weather.winddirection,\n    time: msg.payload.current_weather.time\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "11b996f0ea03a707"
+            ]
+        ]
+    },
+    {
+        "id": "c906e733bc81900d",
+        "type": "inject",
+        "z": "0e73d04655eac786",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "dc2c4df759596097"
+            ]
+        ]
+    },
+    {
+        "id": "3ca57c861da333c8",
+        "type": "debug",
+        "z": "0e73d04655eac786",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "11b996f0ea03a707",
+        "type": "amqp-out",
+        "z": "0e73d04655eac786",
+        "name": "",
+        "broker": "dfa78146df66037b",
+        "reconnectOnError": false,
+        "exchangeName": "weather-exchange",
+        "exchangeType": "topic",
+        "exchangeRoutingKey": "weather.data",
+        "exchangeRoutingKeyType": "str",
+        "exchangeDurable": true,
+        "amqpProperties": "{ \"headers\": {} }",
+        "rpcTimeoutMilliseconds": 3000,
+        "outputs": 0,
+        "x": 1030,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e84132bb311f745d",
+        "type": "amqp-in",
+        "z": "0e73d04655eac786",
+        "name": "",
+        "broker": "d2c1d426b0c00fd3",
+        "prefetch": 0,
+        "reconnectOnError": false,
+        "noAck": true,
+        "exchangeName": "",
+        "exchangeType": "topic",
+        "exchangeRoutingKey": "",
+        "exchangeDurable": true,
+        "queueName": "processed_queue",
+        "queueType": "classic",
+        "queueExclusive": false,
+        "queueDurable": true,
+        "queueAutoDelete": false,
+        "headers": "{}",
+        "x": 560,
+        "y": 560,
+        "wires": [
+            [
+                "31d39fcf0783a9ac",
+                "6073dc1bbb6c8a31"
+            ]
+        ]
+    },
+    {
+        "id": "31d39fcf0783a9ac",
+        "type": "debug",
+        "z": "0e73d04655eac786",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "6073dc1bbb6c8a31",
+        "type": "function",
+        "z": "0e73d04655eac786",
+        "name": "Extract Temperature",
+        "func": "msg.payload = { temperature: msg.payload.temperature,\n    windspeed: msg.payload.windspeed,\n    winddirection: msg.payload.winddirection\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 560,
+        "wires": [
+            [
+                "680b4d76d3451caf"
+            ]
+        ]
+    },
+    {
+        "id": "680b4d76d3451caf",
+        "type": "mqtt out",
+        "z": "0e73d04655eac786",
         "name": "",
         "topic": "v1/devices/me/telemetry",
         "qos": "1",

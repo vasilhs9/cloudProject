@@ -337,6 +337,7 @@
         "id": "c906e733bc81900d",
         "type": "inject",
         "z": "0e73d04655eac786",
+        "d": true,
         "name": "",
         "props": [
             {
@@ -347,14 +348,14 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "5",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 120,
+        "x": 130,
         "y": 80,
         "wires": [
             [
@@ -394,7 +395,7 @@
         "amqpProperties": "{ \"headers\": {} }",
         "rpcTimeoutMilliseconds": 3000,
         "outputs": 0,
-        "x": 1010,
+        "x": 1030,
         "y": 400,
         "wires": []
     },
