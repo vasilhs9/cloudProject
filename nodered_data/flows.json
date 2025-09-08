@@ -337,7 +337,6 @@
         "id": "c906e733bc81900d",
         "type": "inject",
         "z": "0e73d04655eac786",
-        "d": true,
         "name": "",
         "props": [
             {
@@ -395,7 +394,7 @@
         "amqpProperties": "{ \"headers\": {} }",
         "rpcTimeoutMilliseconds": 3000,
         "outputs": 0,
-        "x": 1030,
+        "x": 1050,
         "y": 400,
         "wires": []
     },
