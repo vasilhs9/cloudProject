@@ -1,0 +1,5 @@
+pika
+minio
+requests
+python-dotenv
+boto3
