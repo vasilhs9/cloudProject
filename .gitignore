@@ -1,10 +1,26 @@
-# Ignore Python cache
+# Python cache
 __pycache__/
 *.pyc
 
-# Ignore Docker volumes
-*/data/
+# Node-RED data
+nodered_data/
+
+# MinIO data
+minio_data/
+
+# RabbitMQ data
+rabbitmq_data/
+
+# Postgres data
+postgres-data/
+
+# Log files
 *.log
 
-# Ignore local env
+# Environment variables
 .env
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
