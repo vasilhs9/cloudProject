@@ -426,5 +426,57 @@
                 "file": "/usr/src/node-red/node_modules/@node-red/nodes/core/storage/23-watch.js"
             }
         }
+    },
+    "@mnn-o/node-red-rabbitmq": {
+        "name": "@mnn-o/node-red-rabbitmq",
+        "version": "1.0.2",
+        "local": true,
+        "user": true,
+        "nodes": {
+            "amqp-in": {
+                "name": "amqp-in",
+                "types": [
+                    "amqp-in"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@mnn-o/node-red-rabbitmq",
+                "file": "/data/node_modules/@mnn-o/node-red-rabbitmq/build/src/nodes/amqp-in.js"
+            },
+            "amqp-out": {
+                "name": "amqp-out",
+                "types": [
+                    "amqp-out"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@mnn-o/node-red-rabbitmq",
+                "file": "/data/node_modules/@mnn-o/node-red-rabbitmq/build/src/nodes/amqp-out.js"
+            },
+            "amqp-broker": {
+                "name": "amqp-broker",
+                "types": [
+                    "amqp-broker"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@mnn-o/node-red-rabbitmq",
+                "file": "/data/node_modules/@mnn-o/node-red-rabbitmq/build/src/nodes/amqp-broker.js"
+            },
+            "amqp-in-manual-ack": {
+                "name": "amqp-in-manual-ack",
+                "types": [
+                    "amqp-in-manual-ack"
+                ],
+                "enabled": true,
+                "local": true,
+                "user": false,
+                "module": "@mnn-o/node-red-rabbitmq",
+                "file": "/data/node_modules/@mnn-o/node-red-rabbitmq/build/src/nodes/amqp-in-manual-ack.js"
+            }
+        }
     }
 }
