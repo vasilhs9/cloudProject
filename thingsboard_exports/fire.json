@@ -1,0 +1,144 @@
+{
+  "ruleChain": {
+    "name": "fire",
+    "type": "CORE",
+    "firstRuleNodeId": null,
+    "root": false,
+    "debugMode": false,
+    "configuration": null,
+    "additionalInfo": {
+      "description": ""
+    }
+  },
+  "metadata": {
+    "version": 6,
+    "firstNodeIndex": 0,
+    "nodes": [
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbMsgTypeSwitchNode",
+        "name": "check",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "version": 0
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 334,
+          "layoutY": 242
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.filter.TbJsFilterNode",
+        "name": "fire hazard",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "JS",
+          "jsScript": "var temp = msg.temperature;\nvar wind = msg.windspeed;\n\n//alarm if temperature > 30 °C AND wind speed > 20 km/h\nreturn temp > 3 && wind > 2;\n",
+          "tbelScript": "// msg holds your telemetry payload\nvar temp = msg.temperature;\nvar wind = msg.windSpeed;\n\n// Example: alarm if temperature > 30 °C AND wind speed > 20 km/h\nreturn temp > 30 && wind > 20;\n"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 666,
+          "layoutY": 336
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.notification.TbNotificationNode",
+        "name": "Weather Alert: Temp ${temperature}°C, Wind ${windSpeed} km/h",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "templateId": {
+            "entityType": "NOTIFICATION_TEMPLATE",
+            "id": "7c5359b0-8d51-11f0-98e1-73228abd19eb"
+          },
+          "targets": [
+            "b3b40a40-8c92-11f0-89f7-f73e4ae7a3d7"
+          ]
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 1268,
+          "layoutY": 534
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbClearAlarmNode",
+        "name": "clear",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "JS",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n    //remove prevAlarmDetails from metadata\n    delete metadata.prevAlarmDetails;\n    //now metadata is the same as it comes IN this rule node\n}\n\n\nreturn details;",
+          "alarmDetailsBuildTbel": "var details = {};\nif (metadata.prevAlarmDetails != null) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n    //remove prevAlarmDetails from metadata\n    metadata.remove('prevAlarmDetails');\n    //now metadata is the same as it comes IN this rule node\n}\n\n\nreturn details;",
+          "alarmType": "Weather Alert"
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 918,
+          "layoutY": 572
+        }
+      },
+      {
+        "type": "org.thingsboard.rule.engine.action.TbCreateAlarmNode",
+        "name": "fire alarm",
+        "debugSettings": null,
+        "singletonMode": false,
+        "queueName": null,
+        "configurationVersion": 0,
+        "configuration": {
+          "scriptLang": "TBEL",
+          "alarmDetailsBuildJs": "var details = {};\nif (metadata.prevAlarmDetails) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n    //remove prevAlarmDetails from metadata\n    delete metadata.prevAlarmDetails;\n    //now metadata is the same as it comes IN this rule node\n}\n\n\nreturn details;",
+          "alarmDetailsBuildTbel": "var details = {};\nif (metadata.prevAlarmDetails != null) {\n    details = JSON.parse(metadata.prevAlarmDetails);\n    //remove prevAlarmDetails from metadata\n    metadata.remove('prevAlarmDetails');\n    //now metadata is the same as it comes IN this rule node\n}\n\n\nreturn details;",
+          "useMessageAlarmData": false,
+          "overwriteAlarmDetails": false,
+          "alarmType": "Weather Alert",
+          "severity": "CRITICAL",
+          "propagate": true,
+          "relationTypes": [],
+          "propagateToOwner": true,
+          "propagateToTenant": true,
+          "dynamicSeverity": false
+        },
+        "additionalInfo": {
+          "description": "",
+          "layoutX": 984,
+          "layoutY": 398
+        }
+      }
+    ],
+    "connections": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "type": "Post telemetry"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 3,
+        "type": "False"
+      },
+      {
+        "fromIndex": 1,
+        "toIndex": 4,
+        "type": "True"
+      },
+      {
+        "fromIndex": 4,
+        "toIndex": 2,
+        "type": "Created"
+      }
+    ],
+    "ruleChainConnections": null
+  }
+}
