@@ -2,6 +2,7 @@ import json
 import pika
 import boto3
 from datetime import datetime
+from botocore.exceptions import ClientError
 
 
 RABBITMQ_HOST = "rabbitmq"
@@ -34,6 +35,34 @@ channel = connection.channel()
 channel.queue_declare(queue=RAW_QUEUE, durable=True)
 channel.queue_declare(queue=PROCESSED_QUEUE, durable=True)
 
+def save_weather_record_ndjson(data):
+    date_str = datetime.utcnow().date().isoformat()
+    filename = f"weather_{date_str}.json" #eather_2025-09-08.json
+
+    data["timestamp"] = datetime.utcnow().isoformat()
+
+    json_line = json.dumps(data)
+
+    try:
+        #get object content
+        response = s3.get_object(Bucket=BUCKET_NAME, Key=filename)
+        existing = response["Body"].read().decode("utf-8")
+        updated_content = existing + "\n" + json_line
+    except s3.exceptions.NoSuchKey:
+        #file doesn't exist yet
+        updated_content = json_line
+
+    s3.put_object(
+        Bucket=BUCKET_NAME,
+        Key=filename,
+        Body=updated_content.encode("utf-8"),
+        ContentType="application/json"
+    )
+
+    print(f"Appended record to {filename}")
+
+
+
 def callback(ch, method, properties, body):
     try:
         data = json.loads(body.decode("utf-8"))
@@ -42,16 +71,7 @@ def callback(ch, method, properties, body):
         temp = data.get("temperature")
         data["status"] = "good" if temp is not None and temp <= 25 else "bad"
 
-        # timestamped filename for MinIO
-        filename = f"weather_{datetime.utcnow().isoformat()}.json"
-
-        s3.put_object(
-            Bucket=BUCKET_NAME,
-            Key=filename,
-            Body=json.dumps(data, indent=2).encode("utf-8"),
-            ContentType="application/json"
-        )
-        print(f"Saved {filename} to MinIO")
+        save_weather_record_ndjson(data)
 
         # add some logic here to generate interesting data for thingsboard
 
