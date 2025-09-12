@@ -3,6 +3,10 @@ import pika
 import boto3
 from datetime import datetime
 from botocore.exceptions import ClientError
+import threading
+import schedule
+import time
+from datetime import datetime, timedelta
 
 
 RABBITMQ_HOST = "rabbitmq"
@@ -91,8 +95,78 @@ def callback(ch, method, properties, body):
         print(f"Error processing message: {e}")
         ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
 
-channel.basic_qos(prefetch_count=1)
-channel.basic_consume(queue=RAW_QUEUE, on_message_callback=callback)
+def append_daily_metadata():
+    # yesterdays file
+    date = (datetime.utcnow().date() - timedelta(days=1)).isoformat()
+    filename = f"weather_{date}.json"
 
-print("Waiting for messages... Press CTRL+C to exit.")
-channel.start_consuming()
+    try:
+        response = s3.get_object(Bucket=BUCKET_NAME, Key=filename)
+        content = response["Body"].read().decode("utf-8")
+    except s3.exceptions.NoSuchKey:
+        print(f"No file found for {date}")
+        return
+
+    records = []
+    for line in content.strip().splitlines():
+        try:
+            obj = json.loads(line)
+            if not obj.get("_metadata", False):
+                records.append(obj)
+        except json.JSONDecodeError:
+            continue
+
+    if not records:
+        print(f"No records to process for {date}")
+        return
+
+    avg_temp = sum(r["temperature"] for r in records) / len(records)
+    avg_wind = sum(r["windspeed"] for r in records) / len(records)
+
+    metadata = {
+        "_metadata": True,
+        "avg_temperature": avg_temp,
+        "avg_windspeed": avg_wind,
+        "record_count": len(records)
+    }
+
+    new_content = content.strip() + "\n" + json.dumps(metadata)
+
+    s3.put_object(
+        Bucket=BUCKET_NAME,
+        Key=filename,
+        Body=new_content.encode("utf-8"),
+        ContentType="application/json"
+    )
+
+    print(f"Metadata appended to {filename}")
+
+def safe_append_metadata():
+    try:
+        append_daily_metadata()
+    except Exception as e:
+        print(f"[Scheduler] Metadata job failed: {e}")
+
+def run_scheduler():
+    schedule.every().day.at("00:01").do(safe_append_metadata)
+    while True:
+        schedule.run_pending()
+        time.sleep(30)  # check every 30 seconds
+
+if __name__ == "__main__":
+    # start scheduler in a background thread
+    t = threading.Thread(target=run_scheduler, daemon=True)
+    t.start()
+
+    channel.basic_qos(prefetch_count=1)
+    channel.basic_consume(queue=RAW_QUEUE, on_message_callback=callback)
+    print("Waiting for messages... Press CTRL+C to exit.")
+    channel.start_consuming()
+
+
+#channel.basic_qos(prefetch_count=1)
+#channel.basic_consume(queue=RAW_QUEUE, on_message_callback=callback)
+#print("Waiting for messages... Press CTRL+C to exit.")
+#channel.start_consuming()
+
+
